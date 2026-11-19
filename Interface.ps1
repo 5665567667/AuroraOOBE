@@ -1,0 +1,75 @@
+# Create-Xaml.ps1
+$xamlPath = ".\Interface.xaml"
+$xamlContent = @"
+<Window xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        Title="Aurora Studio TEST MODE" Height="650" Width="950" 
+        Background="#1E1E1E" Foreground="White" WindowStartupLocation="CenterScreen">
+    <Grid>
+        <StackPanel x:Name="PanelArchWizard" Visibility="Visible" HorizontalAlignment="Center" VerticalAlignment="Center">
+            <TextBlock Text="Выберите архиватор:" FontSize="22" FontWeight="Bold" Margin="0,0,0,30" HorizontalAlignment="Center"/>
+            <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
+                <Button x:Name="BtnArch7Zip" Content="7-Zip" Width="120" Height="40" Margin="10" Background="#007ACC" Foreground="White" FontSize="14"/>
+                <Button x:Name="BtnArchWinRar" Content="WinRAR" Width="120" Height="40" Margin="10" Background="#007ACC" Foreground="White" FontSize="14"/>
+                <Button x:Name="BtnArchBoth" Content="Оба" Width="120" Height="40" Margin="10" Background="#007ACC" Foreground="White" FontSize="14"/>
+            </StackPanel>
+        </StackPanel>
+
+        <TabControl x:Name="MainTab" Visibility="Collapsed" Background="#252526" BorderBrush="#3E3E42">
+            <TabItem Header="Приложения" FontSize="14">
+                <ScrollViewer VerticalScrollBarVisibility="Auto" Padding="10">
+                    <StackPanel x:Name="ContentPanel"/>
+                </ScrollViewer>
+            </TabItem>
+            
+            <TabItem Header="Система" FontSize="14">
+                <StackPanel Margin="20">
+                    <GroupBox Header="Центр обновлений" Foreground="White" BorderBrush="#555" Margin="0,0,0,15">
+                        <StackPanel>
+                            <Button x:Name="BtnCheckUpdates" Content="Проверить обновления Windows" Width="250" Height="35" Margin="0,0,0,10" Background="#333" Foreground="White"/>
+                            <StackPanel x:Name="PanelUpdates" Visibility="Collapsed">
+                                <TextBlock x:Name="TxtUpdateInfo" TextWrapping="Wrap" Margin="0,0,0,10" Foreground="#CCC"/>
+                                <Button x:Name="BtnInstallUpdates" Content="Установить выбранные" Width="250" Height="35" Background="#007ACC" Foreground="White"/>
+                            </StackPanel>
+                        </StackPanel>
+                    </GroupBox>
+
+                    <GroupBox Header="Безопасность" Foreground="White" BorderBrush="#555" Margin="0,0,0,15">
+                        <StackPanel>
+                            <TextBlock Text="Отключить Microsoft Defender?" FontWeight="Bold" Foreground="#FF4444" Margin="0,0,0,10" FontSize="14"/>
+                            <StackPanel Orientation="Horizontal">
+                                <Button x:Name="BtnNoDefender" Content="Да, отключить" Width="140" Height="35" Background="#CC0000" Foreground="White" Margin="0,0,10,0"/>
+                                <Button x:Name="BtnKeepDefender" Content="Оставить включенным" Width="140" Height="35" Background="#333" Foreground="White"/>
+                            </StackPanel>
+                        </StackPanel>
+                    </GroupBox>
+
+                    <GroupBox x:Name="GrpDualMonitor" Header="Настройки 2-го монитора" Foreground="White" BorderBrush="#555" Visibility="Collapsed">
+                        <StackPanel>
+                            <CheckBox x:Name="ChkTaskbar" Content="Панель задач на всех экранах" Foreground="White" Margin="0,5"/>
+                            <CheckBox x:Name="ChkCursor" Content="Отключить привязку курсора к краям" Foreground="White" Margin="0,5"/>
+                            <CheckBox x:Name="ChkMPO" Content="Включить MPO (Multi-Plane Overlay)" Foreground="White" Margin="0,5"/>
+                            <Button x:Name="BtnForceShowMonitor" Content="Показать настройки принудительно" Width="250" Height="30" Margin="0,10,0,0" Background="#444" Foreground="#AAA" FontSize="11"/>
+                        </StackPanel>
+                    </GroupBox>
+                </StackPanel>
+            </TabItem>
+        </TabControl>
+
+        <StackPanel x:Name="BottomPanel" Visibility="Collapsed" VerticalAlignment="Bottom" Background="#252526" Height="70" Orientation="Horizontal">
+            <TextBlock x:Name="StatusText" Text="Готово к установке" VerticalAlignment="Center" Margin="20,0,0,0" Foreground="#00FF00" FontSize="14"/>
+            <Button x:Name="BtnStartInstall" Content="НАЧАТЬ УСТАНОВКУ" Width="180" Height="45" Margin="20,0,20,0" Background="#007ACC" Foreground="White" FontWeight="Bold" FontSize="14"/>
+        </StackPanel>
+
+        <StackPanel x:Name="PanelFinish" Visibility="Collapsed" HorizontalAlignment="Center" VerticalAlignment="Center">
+            <TextBlock Text="Тест успешно завершен!" FontSize="28" FontWeight="Bold" Margin="0,0,0,20" Foreground="#00FF00"/>
+            <Border Background="#252526" Padding="20" CornerRadius="8" MaxWidth="700">
+                <TextBlock x:Name="TxtReport" TextWrapping="Wrap" FontSize="13" Foreground="#DDD"/>
+            </Border>
+            <Button x:Name="BtnClose" Content="Закрыть программу" Width="200" Height="40" Margin="0,30,0,0" Background="#333" Foreground="White"/>
+        </StackPanel>
+    </Grid>
+</Window>
+"@
+
+[System.IO.File]::WriteAllText($xamlPath, $xamlContent, [System.Text.UTF8Encoding]::new($true))
+if (Test-Path $xamlPath) { Write-Host "[OK] Interface.xaml создан" -ForegroundColor Green } else { Write-Host "[ERROR]" -ForegroundColor Red }

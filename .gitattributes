@@ -1,0 +1,8 @@
+# Храним в индексе чистый UTF-8 (без BOM) — совместимо с GitHub raw / PSScriptAnalyzer.
+# BOM добавляется автоматически при checkout (PowerShell 5.1 требует UTF-8 with BOM).
+# Рабочее дерево всегда CRLF — как ожидает Windows.
+*.ps1 text working-tree-encoding=UTF-8 eol=crlf
+*.xaml text working-tree-encoding=UTF-8 eol=crlf
+*.md text eol=lf
+*.yml text eol=lf
+
